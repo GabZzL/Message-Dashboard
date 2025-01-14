@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
-import User from "./models/user.js";
-import { SALT_ROUNDS } from "./config.js";
+import User from "./models/UserModel.js";
 
 class Validation {
   static username(username) {
@@ -37,12 +36,13 @@ export class UserRepository {
       }
 
       // 3.- encrypt the password
-      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       // 4.- create the new user profile
       const userProfile = new User({
         username,
-        password: hashedPassword,
+        password,
+        hashedPassword,
         messages: [],
       });
 
@@ -50,11 +50,12 @@ export class UserRepository {
       const newUserProfile = await userProfile.save();
 
       // 6.- save the user profile without the password
-      const { password: _, ...publicUser } = newUserProfile;
+      const publicUser = newUserProfile._doc.username;
 
       return publicUser;
     } catch (error) {
-      throw new Error("User register failed");
+      throw new Error(error);
+      // throw new Error("User register failed");
     }
   }
 

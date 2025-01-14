@@ -1,16 +1,21 @@
 import express from "express";
-import "dotenv/config";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-import { UserRepository } from "./user-repository.js";
-import { PORT, SECRET_JWT_KEY } from "./config.js";
-import authenticationRoutes from "./routes/authentication.js";
-import messagesRoutes from "./routes/user.js";
+import "dotenv/config";
 import connectDB from "./config/db.js";
+import authenticationRoutes from "./routes/authentication.js";
+import messagesRoutes from "./routes/messages.js";
 
 const app = express();
 // connect to the database
 connectDB();
+
+// enviroment variables
+const PORT = process.env.PORT;
+const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
+
+console.log(PORT);
+console.log(SECRET_JWT_KEY);
 
 // middlewares
 app.use(express.json());
@@ -26,6 +31,9 @@ app.use((req, res, next) => {
 
   next(); // follow to the next route or middleware
 });
+
+app.use("/auth", authenticationRoutes);
+app.use("/messages", messagesRoutes);
 
 // app.get("/", (req, res) => {
 //   const { user } = req.session;
@@ -80,9 +88,6 @@ app.use((req, res, next) => {
 
 //   res.json({ route: "mesagges", user });
 // });
-
-app.use("/authentication", authenticationRoutes);
-app.use("/messages", messagesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

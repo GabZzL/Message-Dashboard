@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../models/user";
+import User from "../models/UserModel.js";
 
 const router = express.Router();
 
@@ -10,9 +10,14 @@ router.get("/", async (req, res) => {
   try {
     const messages = await User.aggregate([
       { $unwind: "$messages" }, // Deconstruct the messages array into individual documents
-      { $addFields: { "messages.username": "$username" } }, // add the username field into each message
       {
-        $sort: { "messages.date": "desc" }, // Sort messages by descending order
+        $addFields: {
+          "messages.username": "$username",
+          "messages.userId": "$_id",
+        },
+      }, // add the username field into each message
+      {
+        $sort: { "messages.date": -1 }, // Sort messages by descending order
       },
       {
         $project: {
@@ -24,7 +29,8 @@ router.get("/", async (req, res) => {
 
     res.json({ success: true, user, messages });
   } catch (error) {
-    res.status(500).json({ success: false, error: "failed to fetch messages" });
+    res.status(500).json({ success: false, error });
+    // res.status(500).json({ success: false, error: "failed to fetch messages" });
   }
 });
 
@@ -55,10 +61,12 @@ router.get("/message/:userId/:messageId", async (req, res) => {
   }
 });
 
-// create and update messages
+// create a message
 router.post("/create/:userId", async (req, res) => {
-  const { user } = req.session;
+  // const { user } = req.session;
   const { userId } = req.params;
+
+  const user = true;
 
   if (!user) {
     res.status(403).send("Access not authorized");
@@ -79,7 +87,7 @@ router.post("/create/:userId", async (req, res) => {
         {
           $push: { messages: messageData },
         },
-        { new: true }
+        { new: true, projection: { username: 1, messages: { $slice: -1 } } }
       );
 
       res.json({ success: true, message: newMessage });

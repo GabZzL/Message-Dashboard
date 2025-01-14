@@ -1,10 +1,10 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { SECRET_JWT_KEY } from "../config";
-
-import { UserRepository } from "../user-repository";
+import { UserRepository } from "../user-repository.js";
 
 const router = express.Router();
+
+const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
 
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
     );
 
     res
-      .cookie("access-token", token, {
+      .cookie("access_token", token, {
         httpOnly: true, // it can only be access in the server
         secure: process.env.NODE_ENV === "production", // htts only
         sameSite: "strict", // the cookie only can be access on the same domain
