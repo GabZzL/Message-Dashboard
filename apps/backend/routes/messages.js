@@ -1,5 +1,6 @@
 import express from "express";
 import User from "../models/UserModel.js";
+import Validation from "../utils/validation.js";
 
 const router = express.Router();
 
@@ -35,7 +36,7 @@ router.get("/", async (req, res) => {
 });
 
 // get message by id
-router.get("/message/:userId/:messageId", async (req, res) => {
+router.get("/:userId/:messageId", async (req, res) => {
   const { userId, messageId } = req.params;
 
   try {
@@ -55,18 +56,17 @@ router.get("/message/:userId/:messageId", async (req, res) => {
         .json({ success: false, error: "message does not exists" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, error: "failed to fetch the message" });
+    res.status(500).json({
+      success: false,
+      error: error.message || "failed to fetch the message",
+    });
   }
 });
 
 // create a message
 router.post("/create/:userId", async (req, res) => {
-  // const { user } = req.session;
+  const { user } = req.session;
   const { userId } = req.params;
-
-  const user = true;
 
   if (!user) {
     res.status(403).send("Access not authorized");
@@ -78,11 +78,14 @@ router.post("/create/:userId", async (req, res) => {
     if (userProfile) {
       const messageData = {
         mood: req.body.mood,
-        date: Date.now(),
+        date: new Date(),
         message: req.body.message,
       };
 
-      const newMessage = await User.findByIdAndUpdate(
+      // validate the message data
+      Validation.validateMessage(messageData);
+
+      const response = await User.findByIdAndUpdate(
         userId,
         {
           $push: { messages: messageData },
@@ -90,16 +93,17 @@ router.post("/create/:userId", async (req, res) => {
         { new: true, projection: { username: 1, messages: { $slice: -1 } } }
       );
 
-      res.json({ success: true, message: newMessage });
+      res.json({ success: true, res: response });
     } else {
       res
         .status(404)
         .json({ success: false, error: "the user does not exists" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, error: "failed to create the message" });
+    res.status(500).json({
+      success: false,
+      error: error.message || "failed to create the message",
+    });
   }
 });
 
@@ -117,25 +121,48 @@ router.put("/update/:userId/:messageId", async (req, res) => {
     const userProfile = await User.findById(userId);
 
     if (username === userProfile.username) {
-      const updatedMessage = await User.findOneAndUpdate(
+      const messageData = {
+        mood: req.body.mood,
+        date: new Date(),
+        message: req.body.message,
+      };
+
+      // validate the message data
+      Validation.validateMessage(messageData);
+
+      const response = await User.findOneAndUpdate(
         { _id: userId, "messages._id": messageId },
         {
           $set: {
-            "messages.$.mood": req.body.mood,
+            "messages.$.mood": messageData.mood,
             "messages.$.date": Date.now(),
-            "messages.$.message": req.body.message,
+            "messages.$.message": messageData.message,
           },
         },
-        { new: true }
+        { new: true, projection: { username: 1, messages: 1 } }
       );
-      res.json({ success: true, message: updatedMessage });
+
+      // get the updated message
+      const updatedMessage = response.messages.find(
+        (msg) => msg._id.toString() === messageId
+      );
+
+      res.json({
+        success: true,
+        res: {
+          _id: response._id,
+          username: response.username,
+          message: updatedMessage,
+        },
+      });
     } else {
       res.status(403).send("Access not authorized");
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, error: "failed to update the message" });
+    res.status(500).json({
+      success: false,
+      error: error.message || "failed to update the message",
+    });
   }
 });
 
@@ -143,31 +170,33 @@ router.put("/update/:userId/:messageId", async (req, res) => {
 router.delete("/delete/:userId/:messageId", async (req, res) => {
   const { user } = req.session;
   const username = user.username;
-  const { userId, messageId } = req.params;
+
+  const { userId, messageId} = req.params;
 
   if (!user) {
     res.status(403).send("Access not authorized");
   }
 
   try {
-    const mesagge = await User.findById(messageId);
+    const user = await User.findById(userId);
 
-    if (username === mesagge.username) {
-      const updatedMessage = await User.findByIdAndUpdate(
+    if (username === user.username) {
+      await User.findByIdAndUpdate(
         userId,
         {
           $pull: { messages: { _id: messageId } },
         },
         { new: true }
       );
-      res.json({ success: true, message: updatedMessage });
+      res.json({ success: true });
     } else {
       res.status(403).send("Access not authorized");
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, error: "failed to update the message" });
+    res.status(500).json({
+      success: false,
+      error: error.message || "failed to delete the message",
+    });
   }
 });
 

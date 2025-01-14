@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { UserRepository } from "../user-repository.js";
+import { UserRepository } from "../utils/user-repository.js";
 
 const router = express.Router();
 
@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
         sameSite: "strict", // the cookie only can be access on the same domain
         maxAge: 1000 * 60 * 60, // cookie valid time (ms)
       })
-      .json({ user });
+      .json({ success: true, user });
   } catch (error) {
     res.status(401).send(error.message);
   }
