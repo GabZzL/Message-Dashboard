@@ -1,6 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import "dotenv/config";
 import connectDB from "./config/db.js";
 import authenticationRoutes from "./routes/authentication.js";
@@ -14,12 +15,10 @@ connectDB();
 const PORT = process.env.PORT;
 const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
 
-console.log(PORT);
-console.log(SECRET_JWT_KEY);
-
 // middlewares
 app.use(express.json());
 app.use(cookieParser());
+// cookies
 app.use((req, res, next) => {
   const token = req.cookies.access_token;
   req.session = { user: null };
@@ -31,6 +30,9 @@ app.use((req, res, next) => {
 
   next(); // follow to the next route or middleware
 });
+// cors
+// allow all origins (less secure for production)
+app.use(cors());
 
 app.use("/auth", authenticationRoutes);
 app.use("/messages", messagesRoutes);
