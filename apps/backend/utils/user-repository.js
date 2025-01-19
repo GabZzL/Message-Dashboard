@@ -30,7 +30,10 @@ export class UserRepository {
       const newUserProfile = await userProfile.save();
 
       // 6.- save the user profile without the password
-      const publicUser = newUserProfile._doc.username;
+      const publicUser = {
+        id: newUserProfile._id,
+        username: newUserProfile.username,
+      };
 
       return publicUser;
     } catch (error) {

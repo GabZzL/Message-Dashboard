@@ -33,6 +33,6 @@ async function loadMessages() {
   }
 }
 
-export function loader() {
+export async function loader() {
   return { messages: loadMessages() };
 }
