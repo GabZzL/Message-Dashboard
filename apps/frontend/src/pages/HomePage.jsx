@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import PageContent from "../components/PageContent";
 import MessagesList from "../components/MessageList";
+import { fetchMessages } from "../utils/http";
 
 export default function HomePage() {
   const { messages } = useLoaderData();
@@ -20,19 +21,8 @@ export default function HomePage() {
   );
 }
 
-async function loadMessages() {
-  const res = await fetch("http://localhost:3000/messages");
-
-  if (!res.ok) {
-    throw new Response(
-      JSON.stringify({ message: "Could not fetch messages." }, { status: 500 })
-    );
-  } else {
-    const data = await res.json();
-    return data.messages;
-  }
-}
-
 export async function loader() {
-  return { messages: loadMessages() };
+  const messages = await fetchMessages();
+
+  return { messages };
 }

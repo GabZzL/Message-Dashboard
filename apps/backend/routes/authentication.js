@@ -17,16 +17,7 @@ router.post("/register", async (req, res) => {
       messages: [],
     });
 
-    const token = UserToken.createToken(user);
-
-    res
-      .cookie("access_token", token, {
-        httpOnly: true, // it can only be access in the server
-        secure: process.env.NODE_ENV === "production", // htts only
-        sameSite: "strict", // the cookie only can be access on the same domain
-        maxAge: 1000 * 60 * 60, // cookie valid time (ms)
-      })
-      .res.json({ success: true, user });
+    res.json({ success: true, user });
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -38,11 +29,16 @@ router.post("/login", async (req, res) => {
   try {
     const user = await UserRepository.login({ username, password });
 
-    const token = jwt.sign(
-      { id: user._id, username: user.username },
-      SECRET_JWT_KEY,
-      { expiresIn: "1h" }
-    );
+    const token = UserToken.createToken({
+      id: user._id,
+      username: user.username,
+    });
+
+    // const token = jwt.sign(
+    //   { id: user._id, username: user.username },
+    //   SECRET_JWT_KEY,
+    //   { expiresIn: "1h" }
+    // );
 
     res
       .cookie("access_token", token, {
