@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 });
 // cors
 // allow all origins (less secure for production)
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use("/auth", authenticationRoutes);
 app.use("/messages", messagesRoutes);

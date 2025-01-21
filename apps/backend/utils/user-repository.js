@@ -41,8 +41,8 @@ export class UserRepository {
     }
   }
 
-  static async login({ username, password, messages }) {
-    const userInputData = { username, password, messages };
+  static async login({ username, password }) {
+    const userInputData = { username, password };
 
     try {
       Validation.validateUser(userInputData);
@@ -59,7 +59,10 @@ export class UserRepository {
         throw new Error("password is invalid");
       }
 
-      const publicUser = user._doc.username;
+      const publicUser = {
+        id: user._id,
+        username: user.username,
+      };
 
       return publicUser;
     } catch (error) {

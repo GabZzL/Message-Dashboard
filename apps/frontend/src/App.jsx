@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./pages/RootLayout";
 import RegisterUserPage from "./pages/RegisterUserPage";
+import LoginUserPage from "./pages/LoginUserPage";
 import HomePage, { loader as messagesLoader } from "./pages/HomePage";
 import MessagePage, { loader as messageLoader } from "./pages/MessagePage";
-import { action as registerAction } from "./components/UserForm";
+import LogOutPage, { loader as logoutLoader } from "./pages/LogOutPage";
+import { registerAction, loginAction } from "./components/UserForm";
 import Error from "./pages/Error";
 
 const router = createBrowserRouter([
@@ -21,6 +23,18 @@ const router = createBrowserRouter([
             element: <RegisterUserPage />,
             action: registerAction,
           },
+        ],
+      },
+      {
+        path: "login",
+        children: [
+          { index: true, element: <LoginUserPage />, action: loginAction },
+        ],
+      },
+      {
+        path: "logout",
+        children: [
+          { index: true, element: <LogOutPage />, loader: logoutLoader },
         ],
       },
       {

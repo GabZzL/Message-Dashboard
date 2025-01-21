@@ -1,7 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { UserRepository } from "../utils/user-repository.js";
-import { UserToken } from "../utils/user-token.js";
 
 const router = express.Router();
 
@@ -29,16 +28,11 @@ router.post("/login", async (req, res) => {
   try {
     const user = await UserRepository.login({ username, password });
 
-    const token = UserToken.createToken({
-      id: user._id,
-      username: user.username,
-    });
-
-    // const token = jwt.sign(
-    //   { id: user._id, username: user.username },
-    //   SECRET_JWT_KEY,
-    //   { expiresIn: "1h" }
-    // );
+    const token = jwt.sign(
+      { id: user._id, username: user.username },
+      SECRET_JWT_KEY,
+      { expiresIn: "1h" }
+    );
 
     res
       .cookie("access_token", token, {
@@ -53,7 +47,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/logout", () => {
+router.post("/logout", (req, res) => {
   res.clearCookie("access_token").json({ message: "logout successfully" });
 });
 

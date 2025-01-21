@@ -1,5 +1,5 @@
 import { Form, redirect, useNavigate } from "react-router-dom";
-import { registerUser } from "../utils/http";
+import { registerUser, loginUser } from "../utils/http";
 
 export default function UserForm({ text }) {
   const navigate = useNavigate();
@@ -42,16 +42,31 @@ export default function UserForm({ text }) {
   );
 }
 
-export async function action({ request }) {
+export async function registerAction({ request }) {
   const method = request.method;
   const data = await request.formData();
 
-  const messageData = {
+  const userData = {
     username: data.get("username"),
     password: data.get("password"),
   };
 
-  const user = await registerUser(method, messageData);
+  const user = await registerUser(method, userData);
+  console.log(user);
+
+  return redirect("/");
+}
+
+export async function loginAction({ request }) {
+  const method = request.method;
+  const data = await request.formData();
+
+  const userData = {
+    username: data.get("username"),
+    password: data.get("password"),
+  };
+
+  const user = await loginUser(method, userData);
   console.log(user);
 
   return redirect("/");
