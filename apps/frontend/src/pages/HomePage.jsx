@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 import PageContent from "../components/PageContent";
 import MessagesList from "../components/MessageList";
-import { fetchMessages } from "../utils/http";
+import { fetchMessages } from "../utils/http-messages";
 
 export default function HomePage() {
   const { messages } = useLoaderData();
@@ -23,6 +23,5 @@ export default function HomePage() {
 
 export async function loader() {
   const messages = await fetchMessages();
-
   return { messages };
 }

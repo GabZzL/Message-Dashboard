@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-import { logoutLoader } from "../utils/http";
+import { logoutLoader } from "../utils/http-user";
 
 export default function LogOutPage() {
   return <></>;

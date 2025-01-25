@@ -2,7 +2,7 @@ import { useRouteLoaderData, Await } from "react-router-dom";
 import { Suspense } from "react";
 
 import MessageDetails from "../components/MessageDetails";
-import { fetchSingleMessage } from "../utils/http";
+import { fetchSingleMessage } from "../utils/http-messages";
 
 export default function MessagePage() {
   const { message } = useRouteLoaderData("message-details");

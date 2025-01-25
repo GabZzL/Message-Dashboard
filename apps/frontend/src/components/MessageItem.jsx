@@ -11,6 +11,8 @@ export default function MessageItem({ message }) {
     userId,
   } = message;
 
+  const isUser = true;
+
   return (
     <li>
       <div>
@@ -21,8 +23,12 @@ export default function MessageItem({ message }) {
       </div>
       <div>
         <Link to={`message/${userId}/${messageId}`}>See All</Link>
-        <button>Edit</button>
-        <button>Delete</button>
+        {isUser && (
+          <>
+            <button>Edit</button>
+            <button>Delete</button>
+          </>
+        )}
       </div>
     </li>
   );

@@ -1,5 +1,6 @@
 import { Form, redirect, useNavigate } from "react-router-dom";
-import { registerUser, loginUser } from "../utils/http";
+import { registerUser, loginUser } from "../utils/http-user";
+import { getAuthContext } from "../utils/authContextHelper";
 
 export default function UserForm({ text }) {
   const navigate = useNavigate();
@@ -52,7 +53,11 @@ export async function registerAction({ request }) {
   };
 
   const user = await registerUser(method, userData);
-  console.log(user);
+
+  if (user) {
+    const { authenticateUser } = getAuthContext();
+    authenticateUser(user);
+  }
 
   return redirect("/");
 }
@@ -67,7 +72,11 @@ export async function loginAction({ request }) {
   };
 
   const user = await loginUser(method, userData);
-  console.log(user);
+
+  if (user) {
+    const { authenticateUser } = getAuthContext();
+    authenticateUser(user);
+  }
 
   return redirect("/");
 }

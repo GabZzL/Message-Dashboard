@@ -171,7 +171,7 @@ router.delete("/delete/:userId/:messageId", async (req, res) => {
   const { user } = req.session;
   const username = user.username;
 
-  const { userId, messageId} = req.params;
+  const { userId, messageId } = req.params;
 
   if (!user) {
     res.status(403).send("Access not authorized");

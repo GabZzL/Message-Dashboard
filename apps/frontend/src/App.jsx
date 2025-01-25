@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./pages/RootLayout";
 import RegisterUserPage from "./pages/RegisterUserPage";
 import LoginUserPage from "./pages/LoginUserPage";
+import { loader as userLoader } from "./pages/RootLayout";
 import HomePage, { loader as messagesLoader } from "./pages/HomePage";
 import MessagePage, { loader as messageLoader } from "./pages/MessagePage";
 import LogOutPage, { loader as logoutLoader } from "./pages/LogOutPage";
@@ -11,7 +12,9 @@ import Error from "./pages/Error";
 const router = createBrowserRouter([
   {
     path: "/",
+    id: 'main-page',
     element: <RootLayout />,
+    loader: userLoader,
     errorElement: <Error />,
     children: [
       { index: true, element: <HomePage />, loader: messagesLoader },

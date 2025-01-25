@@ -48,7 +48,29 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-  res.clearCookie("access_token").json({ message: "logout successfully" });
+  const token = req.cookies.access_token;
+
+  if (!token) {
+    return res.status(400).send("No active session found");
+  }
+
+  res.clearCookie("access_token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+
+  res.status(204).send();
+});
+
+router.get("/me", (req, res) => {
+  const { user } = req.session;
+
+  if (user) {
+    res.json({ success: true, user });
+  }
+
+  res.json({ success: false });
 });
 
 const authenticationRoutes = router;
