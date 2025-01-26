@@ -29,3 +29,35 @@ export async function fetchSingleMessage(userId, messageId) {
   const data = await res.json();
   return data.message;
 }
+
+// create and update message
+export async function manipulateMessage(
+  method,
+  userId,
+  messageId,
+  messageData
+) {
+  let url = "http://localhost:3000/messages/create";
+  let errorMessage = "Could not create the message";
+
+  if (method === "put") {
+    url = `http://localhost:3000/messages/update/${userId}/${messageId}`;
+    errorMessage = "Could not update the message";
+  }
+
+  const res = await fetch(url, {
+    method: method,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(messageData),
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Response(JSON.stringify({ message: errorMessage }), {
+      status: 500,
+    });
+  }
+
+  const data = await res.json();
+  return data;
+}

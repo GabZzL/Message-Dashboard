@@ -7,12 +7,15 @@ import HomePage, { loader as messagesLoader } from "./pages/HomePage";
 import MessagePage, { loader as messageLoader } from "./pages/MessagePage";
 import LogOutPage, { loader as logoutLoader } from "./pages/LogOutPage";
 import { registerAction, loginAction } from "./components/UserForm";
+import NewMessagePage from "./pages/NewMessagePage";
+import { manipulateMessageAction } from "./components/MessageForm";
+import EditMessagePage from "./pages/EditMessagePage";
 import Error from "./pages/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    id: 'main-page',
+    id: "main-page",
     element: <RootLayout />,
     loader: userLoader,
     errorElement: <Error />,
@@ -44,8 +47,24 @@ const router = createBrowserRouter([
         path: "message/:userId/:messageId",
         id: "message-details",
         loader: messageLoader,
-        children: [{ index: true, element: <MessagePage /> }],
+        children: [
+          {
+            index: true,
+            element: <MessagePage />,
+          },
+          {
+            path: "edit",
+            element: <EditMessagePage />,
+            action: manipulateMessageAction,
+          },
+        ],
       },
+      {
+        path: "new-message/:userId",
+        element: <NewMessagePage />,
+        action: manipulateMessageAction,
+      },
+      {},
     ],
   },
 ]);

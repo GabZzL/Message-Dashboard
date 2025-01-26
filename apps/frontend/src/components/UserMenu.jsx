@@ -1,8 +1,17 @@
 import { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../store/user-context";
 
 export default function UserMenu() {
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
+  let userId;
+
+  if (user) {
+    userId = user.id;
+  }
+
+  console.log(user);
+  console.log(isAuthenticated);
 
   const welcomeMsg = user ? `Welcome, ${user.username}` : "Please, register";
 
@@ -13,7 +22,9 @@ export default function UserMenu() {
         <p>
           Messages <strong>Number</strong>
         </p>
-        <button>New Message</button>
+        {isAuthenticated && (
+          <NavLink to={`new-message/${userId}`}>New Message</NavLink>
+        )}
       </section>
     </aside>
   );

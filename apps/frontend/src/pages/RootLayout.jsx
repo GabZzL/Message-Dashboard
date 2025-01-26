@@ -29,7 +29,5 @@ export async function loader() {
   const data = await fetchUser();
   const user = data.user;
 
-  console.log(user);
-
   return user;
 }

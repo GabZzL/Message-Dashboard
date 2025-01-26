@@ -28,11 +28,12 @@ router.post("/login", async (req, res) => {
   try {
     const user = await UserRepository.login({ username, password });
 
-    const token = jwt.sign(
-      { id: user._id, username: user.username },
-      SECRET_JWT_KEY,
-      { expiresIn: "1h" }
-    );
+    const userData = {
+      id: user.id.toString(),
+      username: user.username,
+    };
+
+    const token = jwt.sign({ userData }, SECRET_JWT_KEY, { expiresIn: "1h" });
 
     res
       .cookie("access_token", token, {
@@ -68,9 +69,9 @@ router.get("/me", (req, res) => {
 
   if (user) {
     res.json({ success: true, user });
+  } else {
+    res.json({ success: false });
   }
-
-  res.json({ success: false });
 });
 
 const authenticationRoutes = router;

@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../store/user-context";
 
 export default function MessageItem({ message }) {
   const {
@@ -11,7 +13,12 @@ export default function MessageItem({ message }) {
     userId,
   } = message;
 
-  const isUser = true;
+  const { user } = useContext(AuthContext);
+  let isUser = false;
+
+  if (user) {
+    isUser = user.username === username;
+  }
 
   return (
     <li>

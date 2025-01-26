@@ -69,7 +69,7 @@ router.post("/create/:userId", async (req, res) => {
   const { userId } = req.params;
 
   if (!user) {
-    res.status(403).send("Access not authorized");
+    return res.status(403).send("Access not authorized");
   }
 
   try {
@@ -114,7 +114,7 @@ router.put("/update/:userId/:messageId", async (req, res) => {
   const { userId, messageId } = req.params;
 
   if (!user) {
-    res.status(403).send("Access not authorized");
+    return res.status(403).send("Access not authorized");
   }
 
   try {
