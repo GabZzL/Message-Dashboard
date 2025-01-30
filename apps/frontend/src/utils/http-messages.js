@@ -31,17 +31,10 @@ export async function fetchSingleMessage(userId, messageId) {
 }
 
 // create and update message
-export async function manipulateMessage(
-  method,
-  userId,
-  messageId,
-  messageData
-) {
-  let url = "http://localhost:3000/messages/create";
+export async function manipulateMessage(method, url, messageData) {
   let errorMessage = "Could not create the message";
 
   if (method === "put") {
-    url = `http://localhost:3000/messages/update/${userId}/${messageId}`;
     errorMessage = "Could not update the message";
   }
 
@@ -56,6 +49,23 @@ export async function manipulateMessage(
     throw new Response(JSON.stringify({ message: errorMessage }), {
       status: 500,
     });
+  }
+
+  const data = await res.json();
+  return data;
+}
+
+// delete a message
+export async function deleteMessage({ userId, messageId }) {
+  const res = await fetch(
+    `http://localhost:3000/messages/delete/${userId}/${messageId}`
+  );
+
+  if (!res.ok) {
+    throw new Response(
+      JSON.stringify({ message: "Could not delete the message" }),
+      { status: 500 }
+    );
   }
 
   const data = await res.json();

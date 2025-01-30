@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { Outlet, useLoaderData } from "react-router-dom";
+import { useContext, useEffect, Suspense } from "react";
+import { Outlet, useLoaderData, Await } from "react-router-dom";
 
 import MainNavigation from "../components/MainNavigation";
 import UserMenu from "../components/UserMenu";
@@ -15,13 +15,19 @@ export default function RootLayout() {
   }, [user, authenticateUser]);
 
   return (
-    <>
-      <MainNavigation />
-      <UserMenu />
-      <main>
-        <Outlet />
-      </main>
-    </>
+    <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+      <Await resolve={user}>
+        {() => (
+          <>
+            <MainNavigation />
+            <UserMenu />
+            <main>
+              <Outlet />
+            </main>
+          </>
+        )}
+      </Await>
+    </Suspense>
   );
 }
 

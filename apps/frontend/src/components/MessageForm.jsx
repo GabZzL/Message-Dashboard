@@ -27,7 +27,7 @@ export default function MessageForm({ text, method, event }) {
           rows="3"
           placeholder="write your text..."
           required
-          defaultValue={event ? event.messages[0].message : ""}
+          defaultValue={event?.message}
         ></textarea>
       </div>
       <div>
@@ -41,7 +41,7 @@ export default function MessageForm({ text, method, event }) {
 }
 
 export async function manipulateMessageAction({ request, params }) {
-  const method = request.method;
+  const method = request.method.toLowerCase();
   const userId = params.userId;
   const data = await request.formData();
 
@@ -50,12 +50,15 @@ export async function manipulateMessageAction({ request, params }) {
     message: data.get("message"),
   };
 
+  let url = `http://localhost:3000/messages/create/${userId}`;
+
   if (method === "put") {
     const messageId = params.messageId;
-    await manipulateMessage(method, userId, messageId, userData);
+
+    url = `http://localhost:3000/messages/update/${userId}/${messageId}`;
   }
 
-  await manipulateMessage(method, userId, null, userData);
+  await manipulateMessage(method, url, userData);
 
   return redirect("/");
 }

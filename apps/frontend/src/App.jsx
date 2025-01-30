@@ -3,7 +3,10 @@ import RootLayout from "./pages/RootLayout";
 import RegisterUserPage from "./pages/RegisterUserPage";
 import LoginUserPage from "./pages/LoginUserPage";
 import { loader as userLoader } from "./pages/RootLayout";
-import HomePage, { loader as messagesLoader } from "./pages/HomePage";
+import HomePage, {
+  loader as messagesLoader,
+  action as deleteMessageAction,
+} from "./pages/HomePage";
 import MessagePage, { loader as messageLoader } from "./pages/MessagePage";
 import LogOutPage, { loader as logoutLoader } from "./pages/LogOutPage";
 import { registerAction, loginAction } from "./components/UserForm";
@@ -20,7 +23,12 @@ const router = createBrowserRouter([
     loader: userLoader,
     errorElement: <Error />,
     children: [
-      { index: true, element: <HomePage />, loader: messagesLoader },
+      {
+        index: true,
+        element: <HomePage />,
+        loader: messagesLoader,
+        action: deleteMessageAction,
+      },
       {
         path: "register",
         children: [
