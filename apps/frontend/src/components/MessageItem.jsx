@@ -1,12 +1,10 @@
 import { useContext } from "react";
-import { Link, useSubmit } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../store/user-context";
+import { formatDate } from "../utils/dateFormat";
 
 export default function MessageItem({ message }) {
-  const submit = useSubmit();
-
   const {
-    title,
     mood,
     username,
     date,
@@ -22,20 +20,7 @@ export default function MessageItem({ message }) {
     isUser = user.username === username;
   }
 
-  function handleDeleteMessage() {
-    const procced = window.confirm(
-      "Are you sure you want to delete this message?"
-    );
-
-    if (!procced) {
-      return;
-    }
-
-    submit(
-      { userId, messageId },
-      { method: "delete", action: "/", encType: "application/json" }
-    );
-  }
+  const formattedDate = formatDate(date);
 
   return (
     <li>
@@ -43,15 +28,11 @@ export default function MessageItem({ message }) {
         <p>{username}</p>
         <p>{mood}</p>
         <p>{content}</p>
-        <p>{date}</p>
+        <p>{formattedDate}</p>
       </div>
       <div>
-        <Link to={`message/${userId}/${messageId}`}>See All</Link>
         {isUser && (
-          <>
-            <Link to={`message/${userId}/${messageId}/edit`}>Edit</Link>
-            <button onClick={handleDeleteMessage}>Delete</button>
-          </>
+          <Link to={`message/${userId}/${messageId}`}>See Details</Link>
         )}
       </div>
     </li>

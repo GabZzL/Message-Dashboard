@@ -3,11 +3,11 @@ import RootLayout from "./pages/RootLayout";
 import RegisterUserPage from "./pages/RegisterUserPage";
 import LoginUserPage from "./pages/LoginUserPage";
 import { loader as userLoader } from "./pages/RootLayout";
-import HomePage, {
-  loader as messagesLoader,
+import HomePage, { loader as messagesLoader } from "./pages/HomePage";
+import MessagePage, {
+  loader as messageLoader,
   action as deleteMessageAction,
-} from "./pages/HomePage";
-import MessagePage, { loader as messageLoader } from "./pages/MessagePage";
+} from "./pages/MessagePage";
 import LogOutPage, { loader as logoutLoader } from "./pages/LogOutPage";
 import { registerAction, loginAction } from "./components/UserForm";
 import NewMessagePage from "./pages/NewMessagePage";
@@ -27,7 +27,6 @@ const router = createBrowserRouter([
         index: true,
         element: <HomePage />,
         loader: messagesLoader,
-        action: deleteMessageAction,
       },
       {
         path: "register",
@@ -59,6 +58,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <MessagePage />,
+            action: deleteMessageAction,
           },
           {
             path: "edit",

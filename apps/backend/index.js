@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 
   try {
     const data = jwt.verify(token, SECRET_JWT_KEY); // { _id, username}
-    req.session.user = { ...data.userData };
+    req.session.user = { id: data.id, username: data.username };
   } catch {}
 
   next(); // follow to the next route or middleware

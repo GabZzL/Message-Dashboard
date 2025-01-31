@@ -1,10 +1,8 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import { UserRepository } from "../utils/user-repository.js";
+import { UserToken } from "../utils/user-token.js";
 
 const router = express.Router();
-
-const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY;
 
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -16,7 +14,16 @@ router.post("/register", async (req, res) => {
       messages: [],
     });
 
-    res.json({ success: true, user });
+    const token = UserToken.createToken(user.id, user.username);
+
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 1000 * 60 * 60,
+      })
+      .json({ sucess: true, user });
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -33,7 +40,7 @@ router.post("/login", async (req, res) => {
       username: user.username,
     };
 
-    const token = jwt.sign({ userData }, SECRET_JWT_KEY, { expiresIn: "1h" });
+    const token = UserToken.createToken(userData.id, userData.username);
 
     res
       .cookie("access_token", token, {

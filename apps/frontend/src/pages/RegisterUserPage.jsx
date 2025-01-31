@@ -1,5 +1,10 @@
 import UserForm from "../components/UserForm";
+import PageContent from "../components/PageContent";
 
 export default function RegisterUserPage() {
-  return <UserForm text="Register" />;
+  return (
+    <PageContent title="Register">
+      <UserForm text="Register" />
+    </PageContent>
+  );
 }

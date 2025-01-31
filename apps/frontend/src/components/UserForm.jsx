@@ -1,9 +1,12 @@
-import { Form, redirect, useNavigate } from "react-router-dom";
+import { Form, redirect, useNavigate, useNavigation } from "react-router-dom";
 import { registerUser, loginUser } from "../utils/http-user";
 import { getAuthContext } from "../utils/authContextHelper";
 
 export default function UserForm({ text }) {
+  const navigation = useNavigation();
   const navigate = useNavigate();
+
+  const isSubmitting = navigation.state === "submitting";
 
   function handleCancelAction() {
     navigate("..");
@@ -34,10 +37,16 @@ export default function UserForm({ text }) {
         />
       </p>
       <div>
-        <button type="button" onClick={handleCancelAction}>
+        <button
+          type="button"
+          onClick={handleCancelAction}
+          disabled={isSubmitting}
+        >
           Cancel
         </button>
-        <button>{text}</button>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : text}
+        </button>
       </div>
     </Form>
   );
@@ -53,6 +62,8 @@ export async function registerAction({ request }) {
   };
 
   const user = await registerUser(method, userData);
+
+  console.log("register user", user);
 
   if (user) {
     const { authenticateUser } = getAuthContext();

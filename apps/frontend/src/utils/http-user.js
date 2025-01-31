@@ -22,6 +22,7 @@ export async function registerUser(method, userData) {
     method: method,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData),
+    credentials: "include",
   });
 
   if (!res.ok) {

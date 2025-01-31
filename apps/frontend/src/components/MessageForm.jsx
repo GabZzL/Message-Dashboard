@@ -1,8 +1,11 @@
-import { Form, useNavigate, redirect } from "react-router-dom";
+import { Form, useNavigate, redirect, useNavigation } from "react-router-dom";
 import { manipulateMessage } from "../utils/http-messages";
 
 export default function MessageForm({ text, method, event }) {
+  const nativation = useNavigation();
   const navigate = useNavigate();
+
+  const isSubmitting = nativation.state === "submitting";
 
   function handleCancelAction() {
     navigate("..");
@@ -31,10 +34,16 @@ export default function MessageForm({ text, method, event }) {
         ></textarea>
       </div>
       <div>
-        <button type="button" onClick={handleCancelAction}>
+        <button
+          type="button"
+          onClick={handleCancelAction}
+          disabled={isSubmitting}
+        >
           Cancel
         </button>
-        <button>{text}</button>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : text}
+        </button>
       </div>
     </Form>
   );

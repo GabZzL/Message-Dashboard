@@ -11,14 +11,14 @@ export default function MainNavigation() {
       <nav>
         <ul>
           {!isAuthenticated && (
-            <li>
-              <NavLink to="register">Register</NavLink>
-            </li>
-          )}
-          {!isAuthenticated && (
-            <li>
-              <NavLink to="login">Log In</NavLink>
-            </li>
+            <>
+              <li>
+                <NavLink to="register">Register</NavLink>
+              </li>
+              <li>
+                <NavLink to="login">Log In</NavLink>
+              </li>
+            </>
           )}
           {isAuthenticated && (
             <li>

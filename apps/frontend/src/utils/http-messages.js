@@ -56,10 +56,13 @@ export async function manipulateMessage(method, url, messageData) {
 }
 
 // delete a message
-export async function deleteMessage({ userId, messageId }) {
+export async function deleteMessage(userId, messageId) {
   const res = await fetch(
-    `http://localhost:3000/messages/delete/${userId}/${messageId}`
+    `http://localhost:3000/messages/delete/${userId}/${messageId}`,
+    { method: "delete", credentials: "include" }
   );
+
+  console.log(res);
 
   if (!res.ok) {
     throw new Response(

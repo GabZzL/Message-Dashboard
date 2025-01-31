@@ -10,18 +10,15 @@ export default function UserMenu() {
     userId = user.id;
   }
 
-  console.log(user);
-  console.log(isAuthenticated);
+  console.log("user", user);
+  console.log("authenticated", isAuthenticated);
 
-  const welcomeMsg = user ? `Welcome, ${user.username}` : "Please, register";
+  const welcomeMsg = user ? `Welcome, ${user.username}` : "Login or Register";
 
   return (
     <aside>
       <section>
         <h2>{welcomeMsg}</h2>
-        <p>
-          Messages <strong>Number</strong>
-        </p>
         {isAuthenticated && (
           <NavLink to={`new-message/${userId}`}>New Message</NavLink>
         )}
