@@ -1,0 +1,78 @@
+.article {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.moodTag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  background: #e2e8f0;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+.date {
+  color: #64748b;
+  font-size: 0.875rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.messageText {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.editLink {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.editLink:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.deleteButton {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.deleteButton:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .article {
+    padding: 1rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .deleteButton {
+    width: 100%;
+  }
+}

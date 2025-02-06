@@ -9,9 +9,12 @@ export default function MainNavigation() {
 
   return (
     <header className={classes.header}>
-      <h1>Dashboard Message</h1>
+      <h1 className={classes.title}>Dashboard Message</h1>
       <nav className={classes.nav}>
         <ul className={classes.navLinks}>
+          <li className={classes.navLink}>
+            <NavLink to="/">Home</NavLink>
+          </li>
           {!isAuthenticated && (
             <>
               <li className={classes.navLink}>

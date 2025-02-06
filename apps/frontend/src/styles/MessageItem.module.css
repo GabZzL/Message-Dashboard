@@ -34,3 +34,17 @@
   color: #64748b;
   font-size: 0.875rem;
 }
+
+.details {
+  text-decoration: none;
+  font-style: italic;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.details:hover {
+  font-size: 0.95rem;
+}

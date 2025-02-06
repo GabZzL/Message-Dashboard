@@ -34,7 +34,12 @@ export default function MessageItem({ message }) {
       </div>
       <div>
         {isUser && (
-          <Link to={`message/${userId}/${messageId}`}>See Details</Link>
+          <Link
+            className={classes.details}
+            to={`message/${userId}/${messageId}`}
+          >
+            See Details ...
+          </Link>
         )}
       </div>
     </li>

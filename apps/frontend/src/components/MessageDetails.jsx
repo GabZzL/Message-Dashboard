@@ -4,6 +4,8 @@ import PageContent from "./PageContent";
 import { AuthContext } from "../store/user-context";
 import { formatDate } from "../utils/dateFormat";
 
+import classes from "../styles/MessageDetails.module.css";
+
 function MessageDetails({ messageInfo }) {
   const { user } = useContext(AuthContext);
   const submit = useSubmit();
@@ -31,18 +33,23 @@ function MessageDetails({ messageInfo }) {
     submit(null, { method: "delete" });
   }
 
-  console.log("this is the user", user);
-
   return (
-    <PageContent title={username}>
-      <article>
-        <p>{mood}</p>
-        <time>{formattedDate}</time>
-        <p>{message}</p>
+    <PageContent title={`By ${username}`}>
+      <article className={classes.article}>
+        <p className={classes.moodTag}>{mood}</p>
+        <time className={classes.date}>{formattedDate}</time>
+        <p className={classes.messageText}>{message}</p>
         {isUser && (
-          <div>
-            <Link to="edit">Edit</Link>
-            <button onClick={handleDeleteMessage}>Delete</button>
+          <div className={classes.actions}>
+            <Link className={classes.editLink} to="edit">
+              Edit
+            </Link>
+            <button
+              className={classes.deleteButton}
+              onClick={handleDeleteMessage}
+            >
+              Delete
+            </button>
           </div>
         )}
       </article>

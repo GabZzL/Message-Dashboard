@@ -12,10 +12,9 @@ export default function UserMenu() {
     userId = user.id;
   }
 
-  console.log("user", user);
-  console.log("authenticated", isAuthenticated);
-
-  const welcomeMsg = user ? `Welcome, ${user.username}` : "Login or Register";
+  const welcomeMsg = user
+    ? `Welcome, ${user.username}`
+    : "Please log in or register to continue";
 
   return (
     <aside className={classes.sideBar}>
@@ -24,7 +23,9 @@ export default function UserMenu() {
         {isAuthenticated && (
           <ul>
             <li>
-              <NavLink to={`new-message/${userId}`}>New Message</NavLink>
+              <NavLink className={classes.link} to={`new-message/${userId}`}>
+                New Message
+              </NavLink>
             </li>
           </ul>
         )}

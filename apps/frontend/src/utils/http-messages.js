@@ -62,8 +62,6 @@ export async function deleteMessage(userId, messageId) {
     { method: "delete", credentials: "include" }
   );
 
-  console.log(res);
-
   if (!res.ok) {
     throw new Response(
       JSON.stringify({ message: "Could not delete the message" }),

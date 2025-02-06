@@ -1,6 +1,5 @@
 import { useLoaderData, Await } from "react-router-dom";
 import { Suspense } from "react";
-
 import PageContent from "../components/PageContent";
 import MessagesList from "../components/MessageList";
 import { fetchMessages } from "../utils/http-messages";

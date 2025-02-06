@@ -3,16 +3,36 @@
   padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  margin-top: 3.4rem;
+  margin-top: 1rem;
   position: fixed;
   width: 280px;
   height: 80%;
 }
 
 .sectionTitle {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   margin-bottom: 1rem;
   color: var(--secondary-color);
+  text-wrap: balance;
+}
+
+.link {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+}
+
+.link:hover {
+  color: var(--primary-color);
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.link:active {
+  color: var(--primary-color);
+  background: rgba(37, 99, 235, 0.1);
 }
 
 @media (max-width: 768px) {
