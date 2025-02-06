@@ -1,0 +1,36 @@
+.messageCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s;
+}
+
+.messageCard:hover {
+  transform: translateY(-2px);
+}
+
+.metaData {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.userName {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.sentiment {
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  background: #e2e8f0;
+  font-size: 0.875rem;
+}
+
+.timestamp {
+  color: #64748b;
+  font-size: 0.875rem;
+}

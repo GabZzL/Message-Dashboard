@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../store/user-context";
 import { formatDate } from "../utils/dateFormat";
 
+import classes from "../styles/MessageItem.module.css";
+
 export default function MessageItem({ message }) {
   const {
     mood,
@@ -23,12 +25,12 @@ export default function MessageItem({ message }) {
   const formattedDate = formatDate(date);
 
   return (
-    <li>
-      <div>
-        <p>{username}</p>
-        <p>{mood}</p>
+    <li className={classes.messageCard}>
+      <div className={classes.metaData}>
+        <p className={classes.userName}>{username}</p>
+        <p className={classes.sentiment}>{mood}</p>
         <p>{content}</p>
-        <p>{formattedDate}</p>
+        <p className={classes.timestamp}>{formattedDate}</p>
       </div>
       <div>
         {isUser && (

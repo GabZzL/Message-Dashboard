@@ -1,0 +1,15 @@
+.messageList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between message cards */
+  padding: 1rem 0; /* Padding at the top and bottom */
+  max-width: 800px; /* Maximum width for better readability */
+  margin: 0 auto; /* Center the message list */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .messageList {
+    padding: 1rem; /* Add padding on smaller screens */
+  }
+}

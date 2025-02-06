@@ -1,5 +1,8 @@
 import { Form, useNavigate, redirect, useNavigation } from "react-router-dom";
 import { manipulateMessage } from "../utils/http-messages";
+import Button from "../UI/Button";
+
+import classes from "../styles/MessageForm.module.css";
 
 export default function MessageForm({ text, method, event }) {
   const nativation = useNavigation();
@@ -12,18 +15,25 @@ export default function MessageForm({ text, method, event }) {
   }
 
   return (
-    <Form method={method}>
+    <Form className={classes.formGroup} method={method}>
       <div>
-        <label htmlFor="mood">Select a Mood:</label>
-        <select name="mood" id="mood">
+        <label className={classes.label} htmlFor="mood">
+          Select a Mood:
+        </label>
+        <select className={classes.select} name="mood" id="mood">
           <option value="happy">happy</option>
           <option value="sad">sad</option>
           <option value="neutral">neutral</option>
           <option value="angry">angry</option>
           <option value="excited">excited</option>
         </select>
-        <label htmlFor="message">Message: </label>
+      </div>
+      <div>
+        <label className={classes.label} htmlFor="message">
+          Message:{" "}
+        </label>
         <textarea
+          className={classes.textarea}
           name="message"
           id="message"
           maxLength="140"
@@ -33,17 +43,18 @@ export default function MessageForm({ text, method, event }) {
           defaultValue={event?.message}
         ></textarea>
       </div>
-      <div>
-        <button
+      <div className={classes.buttonContainer}>
+        <Button
           type="button"
+          buttonType="secondary"
           onClick={handleCancelAction}
-          disabled={isSubmitting}
+          isDisabled={isSubmitting}
         >
           Cancel
-        </button>
-        <button disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : text}
-        </button>
+        </Button>
+        <Button buttonType="primary" isDisabled={isSubmitting}>
+          {isSubmitting ? "submitting" : text}
+        </Button>
       </div>
     </Form>
   );

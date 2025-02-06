@@ -6,6 +6,8 @@ import UserMenu from "../components/UserMenu";
 import { fetchUser } from "../utils/http-user";
 import { AuthContext } from "../store/user-context";
 
+import classes from "../styles/RootLayout.module.css";
+
 export default function RootLayout() {
   const user = useLoaderData();
   const { authenticateUser } = useContext(AuthContext);
@@ -18,13 +20,13 @@ export default function RootLayout() {
     <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
       <Await resolve={user}>
         {() => (
-          <>
+          <div className={classes.container}>
             <MainNavigation />
             <UserMenu />
-            <main>
+            <main className={classes.mainContent}>
               <Outlet />
             </main>
-          </>
+          </div>
         )}
       </Await>
     </Suspense>

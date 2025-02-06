@@ -2,26 +2,28 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../store/user-context";
 
+import classes from "../styles/MainNavigation.module.css";
+
 export default function MainNavigation() {
   const { isAuthenticated } = useContext(AuthContext);
 
   return (
-    <header>
+    <header className={classes.header}>
       <h1>Dashboard Message</h1>
-      <nav>
-        <ul>
+      <nav className={classes.nav}>
+        <ul className={classes.navLinks}>
           {!isAuthenticated && (
             <>
-              <li>
+              <li className={classes.navLink}>
                 <NavLink to="register">Register</NavLink>
               </li>
-              <li>
+              <li className={classes.navLink}>
                 <NavLink to="login">Log In</NavLink>
               </li>
             </>
           )}
           {isAuthenticated && (
-            <li>
+            <li className={classes.navLink}>
               <NavLink to="Logout">Log Out</NavLink>
             </li>
           )}

@@ -1,6 +1,9 @@
 import { Form, redirect, useNavigate, useNavigation } from "react-router-dom";
 import { registerUser, loginUser } from "../utils/http-user";
 import { getAuthContext } from "../utils/authContextHelper";
+import Button from "../UI/Button";
+
+import classes from "../styles/UserForm.module.css";
 
 export default function UserForm({ text }) {
   const navigation = useNavigation();
@@ -13,10 +16,13 @@ export default function UserForm({ text }) {
   }
 
   return (
-    <Form method="post">
-      <p>
-        <label htmlFor="username">User Name</label>
+    <Form className={classes.authForm} method="post">
+      <div className={classes.formGroup}>
+        <label className={classes.label} htmlFor="username">
+          User Name
+        </label>
         <input
+          className={classes.input}
           id="username"
           type="text"
           name="username"
@@ -24,10 +30,13 @@ export default function UserForm({ text }) {
           maxLength="20"
           required
         />
-      </p>
-      <p>
-        <label htmlFor="password">Password</label>
+      </div>
+      <div className={classes.formGroup}>
+        <label className={classes.label} htmlFor="password">
+          Password
+        </label>
         <input
+          className={classes.input}
           id="password"
           type="password"
           name="password"
@@ -35,18 +44,19 @@ export default function UserForm({ text }) {
           maxLength="24"
           required
         />
-      </p>
-      <div>
-        <button
+      </div>
+      <div className={classes.buttonContainer}>
+        <Button
           type="button"
+          buttonType="secondary"
           onClick={handleCancelAction}
-          disabled={isSubmitting}
+          isDisabled={isSubmitting}
         >
           Cancel
-        </button>
-        <button disabled={isSubmitting}>
+        </Button>
+        <Button buttonType="primary" isDisabled={isSubmitting}>
           {isSubmitting ? "Submitting..." : text}
-        </button>
+        </Button>
       </div>
     </Form>
   );
