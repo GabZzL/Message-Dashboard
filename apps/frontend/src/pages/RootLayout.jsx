@@ -20,13 +20,15 @@ export default function RootLayout() {
     <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
       <Await resolve={user}>
         {() => (
-          <div className={classes.container}>
-            <MainNavigation />
-            <UserMenu />
-            <main className={classes.mainContent}>
-              <Outlet />
-            </main>
-          </div>
+          <>
+            <div className={classes.container}>
+              <MainNavigation />
+              <UserMenu />
+              <main className={classes.mainContent}>
+                <Outlet />
+              </main>
+            </div>
+          </>
         )}
       </Await>
     </Suspense>

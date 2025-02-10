@@ -13,6 +13,7 @@ import { registerAction, loginAction } from "./components/UserForm";
 import NewMessagePage from "./pages/NewMessagePage";
 import { manipulateMessageAction } from "./components/MessageForm";
 import EditMessagePage from "./pages/EditMessagePage";
+import ProtectedRoute from "./pages/ProtectecRoute";
 import Error from "./pages/Error";
 
 const router = createBrowserRouter([
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
       {
         path: "message/:userId/:messageId",
         id: "message-details",
+        element: <ProtectedRoute />,
         loader: messageLoader,
         children: [
           {
@@ -69,10 +71,15 @@ const router = createBrowserRouter([
       },
       {
         path: "new-message/:userId",
-        element: <NewMessagePage />,
-        action: manipulateMessageAction,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            index: true,
+            element: <NewMessagePage />,
+            action: manipulateMessageAction,
+          },
+        ],
       },
-      {},
     ],
   },
 ]);
