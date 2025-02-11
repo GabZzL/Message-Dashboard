@@ -21,7 +21,7 @@ export default function UserMenu() {
       <section className={classes.sectionTitle}>
         <h2>{welcomeMsg}</h2>
         {isAuthenticated && (
-          <ul>
+          <ul className={classes.linkList}>
             <li>
               <NavLink className={classes.link} to={`new-message/${userId}`}>
                 New Message

@@ -16,6 +16,10 @@
   text-wrap: balance;
 }
 
+.linkList {
+  list-style: none;
+}
+
 .link {
   color: var(--text-dark);
   text-decoration: none;
